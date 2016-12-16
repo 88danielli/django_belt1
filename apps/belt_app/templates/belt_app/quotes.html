@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Success</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'belt_app/css/style.css' %}">
+    </head>
+    <body>
+        <h1>Welcome, {{ request.session.active_user.alias}}!</h1>
+        <button><a href="/logout">Logout</a></button>
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+            {{ message }}
+            </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="wrapper">
+            <div class="quotes">
+                <h3>Quotable Quotes:</h3>
+                <hr>
+                {% for quote in quotes %}
+                <p>{{ quote.author_name }}: {{ quote.quote_text }}</p>
+                <form action="/users/{{quote.user.id}}" method="post">
+                    {% csrf_token %}
+                    <p>Posted by: <input type="submit"value="{{ quote.user.alias}}"></p>
+                </form>
+                <a href=""></a> <button><a href="/favorite_process">Add to My List</a></button></p>
+                <hr>
+                {% endfor %}
+            </div>
+            <div class="favorites">
+                <h3>Your Favorites:</h3>
+                {% for favorite in favorites %}
+                {{favorite.quote.author_name}} {{favorite.quote.quote_text}}
+                {% endfor %}
+                <!-- for loop -->
+                <!-- quote_author: quote_text
+                "Posted by:" user.alias
+                <button><a href="/">Remove from My List</a></button>
+                endfor -->
+            </div>
+
+        </div>
+
+        <h2>Contribute a Quote:</h2>
+        <form action="/quote_process" method="post">
+            {% csrf_token %}
+            <p>Quoted by: <input type="text" name="author_name"></p>
+            <p>Message: <textarea name="quote_text" rows="4" cols="40"></textarea></p>
+            <input type="submit" value="Submit">
+
+        </form>
+
+
+    </body>
+</html>

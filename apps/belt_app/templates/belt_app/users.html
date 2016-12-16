@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Quotes for User</title>
+    </head>
+    <body>
+        <a href="/quotes">Dashboard</a> | <a href="/logout">Logout</a>
+        <h2>Posts By: {{user.alias}}</h2>
+        Count: {{count}}
+
+        {% for quote in quotes_list %}
+        <p>{{ quote.author_name }}: {{ quote.quote_text }}</p>
+        {% endfor %}
+    </body>
+</html>
