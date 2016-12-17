@@ -111,6 +111,13 @@ class FavoriteManager(models.Manager):
         new_favorite = self.create(user=user, quote=quote)
         return (True, quote)
 
+    def remove_favorite(self,user_id, quote_id):
+        user = User.objects.get(id=user_id)
+        quote = Quote.objects.get(id=quote_id)
+        remove_favorite = Favorite.objects.get(user=user, quote=quote)
+        print remove_favorite
+        return (True,remove_favorite)
+
 
 class Favorite(models.Model):
     user = models.ForeignKey(User)

@@ -15,7 +15,7 @@ def quotes(request):
         messages.add_message(request, messages.ERROR, "Please Login to Continue")
         return redirect('/')
     else:
-        quotes = models.Quote.objects.all()
+        quotes = models.Quote.objects.exclude(favorite__user__id=request.session['active_user']['id'])
         favorites = models.Favorite.objects.all()
         context = {
             'quotes': quotes,
@@ -80,7 +80,12 @@ def users(request, id):
     }
     return render(request, 'belt_app/users.html', context)
 
-def favorite_process(request, quote):
+def favorite_process(request, id):
 
-    result = models.Favorite.objects.process_favorite(request.session['active_user']['id'],quote)
+    result = models.Favorite.objects.process_favorite(request.session['active_user']['id'],id)
+    return redirect('/quotes')
+
+def remove_favorite(request, id):
+    result = models.Favorite.objects.remove_favorite(request.session['active_user']['id'],id)
+    result[1].delete()
     return redirect('/quotes')

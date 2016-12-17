@@ -29,14 +29,16 @@
                     {% csrf_token %}
                     <p>Posted by: <input type="submit"value="{{ quote.user.alias}}"></p>
                 </form>
-                <a href=""></a> <button><a href="/">Add to My List</a></button></p>
+                <button><a href="/favorite_process/{{ quote.id }}">Add to My List</a></button></p>
                 <hr>
                 {% endfor %}
             </div>
             <div class="favorites">
                 <h3>Your Favorites:</h3>
                 {% for favorite in favorites %}
-                {{favorite.quote.author_name}} {{favorite.quote.quote_text}}
+                <p>{{favorite.quote.author_name}}: {{favorite.quote.quote_text}}</p>
+                <p>Posted by: {{ favorite.user.alias }} <button><a href="/remove_favorite/{{ favorite.quote.id }}">Remove from My List</a></button></p>
+                <hr>
                 {% endfor %}
                 <!-- for loop -->
                 <!-- quote_author: quote_text
